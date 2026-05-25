@@ -210,7 +210,7 @@ function Slide02() {
 }
 
 function Slide03() {
-  const sources = ["Onboarding", "RFA", "KYC", "Outreach", "+ 1 more"];
+  const sources = ["Onboarding", "RFA", "KYC", "Outreach", "ISDA Documents"];
   return (
     <SlideShell
       index={3}
@@ -221,46 +221,59 @@ function Slide03() {
         </>
       }
     >
-      <div className="grid h-full grid-cols-1 items-center gap-10 md:grid-cols-2">
-        <div className="relative">
-          <div className="flex flex-col gap-2.5">
+      <div className="grid h-full grid-cols-1 items-stretch gap-8 md:grid-cols-12">
+        {/* Left: source systems */}
+        <div className="md:col-span-4 flex flex-col">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Source systems
+          </div>
+          <div className="mt-3 grid grid-cols-1 gap-2">
             {sources.map((s) => (
               <div
                 key={s}
-                className="flex items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 shadow-sm"
+                className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 shadow-sm"
               >
-                <span>{s}</span>
-                <ChevronRight className="h-4 w-4 text-sky-500" />
+                {s}
               </div>
             ))}
           </div>
-          <div className="my-6 flex items-center justify-center">
-            <div className="rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 px-6 py-4 text-center text-white shadow-lg">
-              <div className="text-xs uppercase tracking-widest text-white/70">
-                Universal API
-              </div>
-              <div className="mt-1 text-lg font-semibold">Single endpoint</div>
+        </div>
+
+        {/* Middle: hub + output */}
+        <div className="md:col-span-4 flex flex-col items-center justify-center gap-4">
+          <div className="hidden md:block text-2xl text-sky-400">→</div>
+          <div className="w-full rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 px-6 py-6 text-center text-white shadow-xl">
+            <div className="text-[11px] uppercase tracking-[0.22em] text-white/70">
+              Universal API
             </div>
+            <div className="mt-1 text-xl font-semibold">Single endpoint</div>
           </div>
-          <div className="rounded-lg border border-slate-200 bg-slate-900 px-4 py-3 font-mono text-sm text-emerald-300 shadow-sm">
+          <div className="hidden md:block text-2xl text-sky-400">↓</div>
+          <div className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-center font-mono text-xs text-emerald-300 shadow-sm">
             {"{ unified JSON payload }"}
           </div>
         </div>
 
-        <ul className="space-y-4 text-base text-slate-700">
-          {[
-            "Extracts only business-critical fields from each source system",
-            "All sections linked through a primary key (OAID / RFAID)",
-            "Modular: each product is independently drillable",
-            "Event-driven webhooks replace polling — sub-second updates",
-            "Backward compatible with the legacy polling API",
-          ].map((t) => (
-            <li key={t} className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-sky-500" />
-              <span>{t}</span>
-            </li>
-          ))}
-        </ul>
+        {/* Right: principles */}
+        <div className="md:col-span-4 flex flex-col">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Design principles
+          </div>
+          <ul className="mt-3 space-y-3 text-sm text-slate-700">
+            {[
+              "Extracts only business-critical fields per source",
+              "Sections linked by a primary key (OAID / RFAID)",
+              "Modular — each product independently drillable",
+              "Event-driven webhooks replace polling",
+              "Backward compatible with legacy polling API",
+            ].map((t) => (
+              <li key={t} className="flex gap-2.5">
+                <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-sky-500" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </SlideShell>
   );
