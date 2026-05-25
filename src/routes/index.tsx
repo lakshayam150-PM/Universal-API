@@ -221,45 +221,50 @@ function Slide03() {
         </>
       }
     >
-      <div className="grid h-full grid-cols-1 items-stretch gap-8 md:grid-cols-12">
-        {/* Left: source systems */}
-        <div className="md:col-span-4 flex flex-col">
+      <div className="flex h-full flex-col gap-8">
+        {/* Horizontal flow: sources → hub → payload */}
+        <div>
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Source systems
+            End-to-end flow
           </div>
-          <div className="mt-3 grid grid-cols-1 gap-2">
-            {sources.map((s) => (
-              <div
-                key={s}
-                className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 shadow-sm"
-              >
-                {s}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Middle: hub + output */}
-        <div className="md:col-span-4 flex flex-col items-center justify-center gap-4">
-          <div className="hidden md:block text-2xl text-sky-400">→</div>
-          <div className="w-full rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 px-6 py-6 text-center text-white shadow-xl">
-            <div className="text-[11px] uppercase tracking-[0.22em] text-white/70">
-              Universal API
+          <div className="mt-4 flex flex-col items-stretch gap-3 md:flex-row md:items-center">
+            {/* Sources column */}
+            <div className="flex flex-col gap-2 md:flex-1">
+              {sources.map((s) => (
+                <div
+                  key={s}
+                  className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-center text-xs font-medium text-slate-700 shadow-sm"
+                >
+                  {s}
+                </div>
+              ))}
             </div>
-            <div className="mt-1 text-xl font-semibold">Single endpoint</div>
-          </div>
-          <div className="hidden md:block text-2xl text-sky-400">↓</div>
-          <div className="w-full rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-center font-mono text-xs text-emerald-300 shadow-sm">
-            {"{ unified JSON payload }"}
+
+            <div className="hidden md:block text-2xl text-sky-400">→</div>
+
+            {/* Hub */}
+            <div className="rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 px-5 py-5 text-center text-white shadow-xl md:flex-1">
+              <div className="text-[10px] uppercase tracking-[0.22em] text-white/70">
+                Universal API
+              </div>
+              <div className="mt-1 text-base font-semibold">Single endpoint</div>
+            </div>
+
+            <div className="hidden md:block text-2xl text-sky-400">→</div>
+
+            {/* Payload */}
+            <div className="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-center font-mono text-xs text-emerald-300 shadow-sm md:flex-1">
+              {"{ unified JSON payload }"}
+            </div>
           </div>
         </div>
 
-        {/* Right: principles */}
-        <div className="md:col-span-4 flex flex-col">
+        {/* Principles below */}
+        <div>
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
             Design principles
           </div>
-          <ul className="mt-3 space-y-3 text-sm text-slate-700">
+          <ul className="mt-3 grid grid-cols-1 gap-2 text-sm text-slate-700 md:grid-cols-2">
             {[
               "Extracts only business-critical fields per source",
               "Sections linked by a primary key (OAID / RFAID)",
