@@ -385,12 +385,12 @@ function Slide05() {
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col items-stretch gap-2 md:flex-row md:items-center">
             {nodes.map((n, i) => (
-              <React.Fragment key={n.label}>
+              <Fragment key={n.label}>
                 <ArchNode label={n.label} sub={n.sub} accent={n.accent} />
                 {i < nodes.length - 1 && (
                   <div className="hidden text-sky-400 md:block">→</div>
                 )}
-              </React.Fragment>
+              </Fragment>
             ))}
 
           </div>
