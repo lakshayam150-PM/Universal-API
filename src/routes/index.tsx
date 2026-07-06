@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronLeft,
@@ -331,65 +331,90 @@ function Slide04() {
   );
 }
 
+function ArchNode({
+  label,
+  sub,
+  accent,
+}: {
+  label: string;
+  sub?: string;
+  accent?: boolean;
+}) {
+  return (
+    <div
+      className={`flex min-w-[110px] flex-1 flex-col items-center rounded-xl border px-3 py-3 text-center shadow-sm ${
+        accent
+          ? "border-sky-300 bg-gradient-to-br from-sky-50 to-white ring-1 ring-sky-100"
+          : "border-slate-200 bg-white"
+      }`}
+    >
+      <div className="text-xs font-semibold text-[#0B1E36]">{label}</div>
+      {sub && <div className="mt-1 text-[10px] text-slate-500">{sub}</div>}
+    </div>
+  );
+}
+
 function Slide05() {
+  const nodes = [
+    { label: "5 Source Systems", sub: "Post-trade, corp actions, real-time" },
+    { label: "AWS EventBridge", sub: "Central event router + rules", accent: true },
+    { label: "SQS Queue", sub: "Decouples ingestion & processing" },
+    { label: "Event Processor", sub: "Normalises into single payload", accent: true },
+    { label: "Notification Processor", sub: "Pushes to client webhooks" },
+    { label: "Client Webhook", sub: "Frontend renders real-time data", accent: true },
+  ];
+  const benefits = [
+    "SQS decouples ingestion — resilient under load spikes",
+    "EventBridge rules replace point-to-point connections",
+    "Single consolidated payload — no client-side stitching",
+    "Webhook push replaces polling — sub-second latency",
+    "Dead Letter Queue captures & retries failed notifications",
+    "Idempotency keys prevent duplicate renders",
+  ];
   return (
     <SlideShell
       index={5}
       kicker="Architecture"
       title={
         <>
-          Polling vs. <span className="text-sky-600">Event-driven.</span>
+          Event-driven pipeline on <span className="text-sky-600">AWS.</span>
         </>
       }
     >
-      <div className="grid h-full grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
-          <div className="flex items-center gap-2 text-rose-600">
-            <Clock className="h-5 w-5" />
-            <span className="text-xs font-semibold uppercase tracking-widest">
-              Before · Polling
-            </span>
-          </div>
-          <h3 className="mt-4 text-2xl font-semibold text-[#0B1E36]">
-            Client pulls. Constantly.
-          </h3>
-          <ul className="mt-5 space-y-3 text-sm text-slate-600">
-            {[
-              "Cron / batch jobs hit the API on a schedule",
-              "Hourly latency at best — often slower",
-              "Wasted compute when nothing changed",
-              "5 separate pipelines to monitor",
-              "Higher infra & support cost on both sides",
-            ].map((t) => (
-              <li key={t} className="flex gap-2">
-                <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-rose-400" />
-                {t}
-              </li>
+      <div className="flex h-full flex-col gap-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col items-stretch gap-2 md:flex-row md:items-center">
+            {nodes.map((n, i) => (
+              <Fragment key={n.label}>
+                <ArchNode label={n.label} sub={n.sub} accent={n.accent} />
+                {i < nodes.length - 1 && (
+                  <div className="hidden text-sky-400 md:block">→</div>
+                )}
+              </Fragment>
             ))}
-          </ul>
+
+          </div>
+          <p className="mt-4 text-xs leading-relaxed text-slate-600">
+            Five upstream systems publish events to <span className="font-semibold text-[#0B1E36]">EventBridge</span>,
+            which routes them into an <span className="font-semibold text-[#0B1E36]">SQS Queue</span>.
+            An <span className="font-semibold text-[#0B1E36]">Event Processor</span> consolidates data into a single
+            normalised payload; the <span className="font-semibold text-[#0B1E36]">Notification Processor</span> pushes it
+            to each client's registered webhook endpoint for real-time rendering.
+          </p>
         </div>
 
-        <div className="rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-50 to-white p-7 shadow-sm ring-1 ring-sky-100">
+        <div className="rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-50 to-white p-5 ring-1 ring-sky-100">
           <div className="flex items-center gap-2 text-sky-600">
-            <Webhook className="h-5 w-5" />
+            <Webhook className="h-4 w-4" />
             <span className="text-xs font-semibold uppercase tracking-widest">
-              After · Event-driven
+              Architectural benefits
             </span>
           </div>
-          <h3 className="mt-4 text-2xl font-semibold text-[#0B1E36]">
-            We push. Instantly.
-          </h3>
-          <ul className="mt-5 space-y-3 text-sm text-slate-700">
-            {[
-              "Webhook fires on every meaningful state change",
-              "Sub-second delivery to client endpoints",
-              "Zero idle polling — only signal, no noise",
-              "Single subscription, single integration",
-              "40% fewer support tickets",
-            ].map((t) => (
-              <li key={t} className="flex gap-2">
-                <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-sky-500" />
-                {t}
+          <ul className="mt-3 grid grid-cols-1 gap-2 text-xs text-slate-700 md:grid-cols-2">
+            {benefits.map((b) => (
+              <li key={b} className="flex gap-2">
+                <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-sky-500" />
+                {b}
               </li>
             ))}
           </ul>
@@ -398,6 +423,7 @@ function Slide05() {
     </SlideShell>
   );
 }
+
 
 function FlowStep({
   n,
@@ -421,12 +447,14 @@ function FlowStep({
 
 function Slide06() {
   const steps = [
-    { t: "RFA status changes", s: "Analyst updates RFA in source system" },
-    { t: "S&P system detects", s: "Change captured & enriched" },
-    { t: "Universal API fires", s: "Webhook dispatched in <1s" },
-    { t: "Client endpoint receives", s: "Unified JSON payload" },
-    { t: "Client app updates", s: "Dashboards refresh in real time" },
+    { t: "5 Source Systems", s: "Publish domain events upstream" },
+    { t: "AWS EventBridge", s: "Routes via rules — no point-to-point" },
+    { t: "SQS Queue", s: "Buffers load, DLQ on failure" },
+    { t: "Event Processor", s: "Normalises into unified payload" },
+    { t: "Notification Processor", s: "Pushes to client webhook (<1s)" },
+    { t: "Client Webhook", s: "Frontend renders in real time" },
   ];
+
   return (
     <SlideShell
       index={6}
