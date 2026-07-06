@@ -447,12 +447,14 @@ function FlowStep({
 
 function Slide06() {
   const steps = [
-    { t: "RFA status changes", s: "Analyst updates RFA in source system" },
-    { t: "S&P system detects", s: "Change captured & enriched" },
-    { t: "Universal API fires", s: "Webhook dispatched in <1s" },
-    { t: "Client endpoint receives", s: "Unified JSON payload" },
-    { t: "Client app updates", s: "Dashboards refresh in real time" },
+    { t: "5 Source Systems", s: "Publish domain events upstream" },
+    { t: "AWS EventBridge", s: "Routes via rules — no point-to-point" },
+    { t: "SQS Queue", s: "Buffers load, DLQ on failure" },
+    { t: "Event Processor", s: "Normalises into unified payload" },
+    { t: "Notification Processor", s: "Pushes to client webhook (<1s)" },
+    { t: "Client Webhook", s: "Frontend renders in real time" },
   ];
+
   return (
     <SlideShell
       index={6}
